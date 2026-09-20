@@ -43,6 +43,7 @@ class LTexture
 
 bool init();
 bool loadMedia();
+bool loadAudio();
 void close();
 
 SDL_Window* gWindow{ nullptr };
@@ -212,6 +213,11 @@ bool loadMedia()
 		return false;
 	}
 
+	return true;
+}
+
+bool loadAudio()
+{
 	if (MIX_Audio* musicAudio = MIX_LoadAudio(gMixer, "theme.mp3", false); musicAudio == nullptr)
 	{
 		return false;
@@ -261,60 +267,53 @@ void close()
 
 int main()
 {
-	if (init() == false)
+	if (!init() || !loadMedia() || !loadAudio())
 	{
 		return 1;
 	}
 	else
 	{
-		if (loadMedia() == false)
+		bool quit = false;
+
+		SDL_Event e;
+		SDL_zero(e);
+
+		gameManager manager;
+
+		while (quit == false)
 		{
-			return 2;
-		}
-		else
-		{
-			bool quit = false;
-
-			SDL_Event e;
-			SDL_zero(e);
-
-			gameManager manager;
-
-			while (quit == false)
+			while (SDL_PollEvent(&e) == true)
 			{
-				while (SDL_PollEvent(&e) == true)
+				if (e.type == SDL_EVENT_QUIT)
 				{
-					if (e.type == SDL_EVENT_QUIT)
-					{
-						quit = true;
-					}
-					else if (e.type == SDL_EVENT_KEY_DOWN)
-					{
-						textToDisplay = manager.getNextDialogue();
+					quit = true;
+				}
+				else if (e.type == SDL_EVENT_KEY_DOWN)
+				{
+					textToDisplay = manager.getNextDialogue();
 
-						if (loadMedia() == false)
-						{
-							return 2;
-						}
+					if (loadMedia() == false)
+					{
+						return 2;
 					}
 				}
-
-				if (MIX_TrackPlaying(gMusicTrack) == false)
-				{
-					SDL_PropertiesID props = SDL_CreateProperties();
-					SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
-					MIX_PlayTrack(gMusicTrack, props);
-					SDL_DestroyProperties(props);
-				}
-
-				SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
-				SDL_RenderClear(gRenderer);
-
-				gPngTexture.render(0.f, 0.f);
-				gTextTexture.render(20.f, 800.f);
-
-				SDL_RenderPresent(gRenderer);
 			}
+
+			if (MIX_TrackPlaying(gMusicTrack) == false)
+			{
+				SDL_PropertiesID props = SDL_CreateProperties();
+				SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
+				MIX_PlayTrack(gMusicTrack, props);
+				SDL_DestroyProperties(props);
+			}
+
+			SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);
+			SDL_RenderClear(gRenderer);
+
+			gPngTexture.render(0.f, 0.f);
+			gTextTexture.render(20.f, 800.f);
+
+			SDL_RenderPresent(gRenderer);
 		}
 	}
 

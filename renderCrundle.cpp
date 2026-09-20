@@ -55,7 +55,7 @@ LTexture gPngTexture;
 MIX_Mixer* gMixer{ nullptr };
 MIX_Track* gMusicTrack{ nullptr };
 
-std::string textToDisplay{ "WELCOME" };
+std::string textToDisplay{ "PRESS ANY KEY TO START" };
 
 LTexture::LTexture():
 	mTexture{ nullptr },
@@ -101,7 +101,7 @@ bool LTexture::loadFromRenderedText(std::string textureText, SDL_Color textColor
 {
 	destroy();
 
-	if (SDL_Surface* textSurface = TTF_RenderText_Blended(gFont, textureText.c_str(), 0, textColor); textSurface == nullptr)
+	if (SDL_Surface* textSurface = TTF_RenderText_Blended_Wrapped(gFont, textureText.c_str(), 0, textColor, screenWidth - 20); textSurface == nullptr)
 	{
 		SDL_Log("Failed to load text surface: %s, Error: %s", textureText.c_str(), SDL_GetError());
 	}

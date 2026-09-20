@@ -3,6 +3,7 @@
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
+#include <SDL3_mixer/SDL_mixer.h>
 
 constexpr int screenWidth{ 602 };
 constexpr int screenHeight{ 968 };
@@ -49,6 +50,9 @@ SDL_Renderer* gRenderer{ nullptr };
 TTF_Font* gFont{ nullptr };
 LTexture gTextTexture;
 LTexture gPngTexture;
+
+MIX_Mixer* gMixer{ nullptr };
+MIX_Track* gMusicTrack{ nullptr };
 
 std::string textToDisplay{ "WELCOME" };
 
@@ -153,7 +157,7 @@ bool LTexture::isLoaded()
 
 bool init()
 {
-	if (SDL_Init(SDL_INIT_VIDEO) == false)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == false)
 	{
 		return false;
 	}
@@ -168,6 +172,18 @@ bool init()
 			if (TTF_Init() == false)
 			{
 				return false;
+			}
+
+			if (MIX_Init() == false)
+			{
+				return false;
+			}
+			else
+			{
+				if (gMixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, nullptr); gMixer == nullptr)
+				{
+					return false;
+				}
 			}
 		}
 	}
@@ -196,6 +212,24 @@ bool loadMedia()
 		return false;
 	}
 
+	if (MIX_Audio* musicAudio = MIX_LoadAudio(gMixer, "theme.mp3", false); musicAudio == nullptr)
+	{
+		return false;
+	}
+	else
+	{
+		if (gMusicTrack = MIX_CreateTrack(gMixer); gMusicTrack == nullptr)
+		{
+			return false;
+		}
+		else
+		{
+			MIX_SetTrackAudio(gMusicTrack, musicAudio);
+		}
+
+		MIX_DestroyAudio(musicAudio);
+	}
+
 	return true;
 }
 
@@ -214,8 +248,15 @@ void close()
 	SDL_DestroyWindow(gWindow);
 	gWindow = nullptr;
 
+	MIX_DestroyTrack(gMusicTrack);
+	gMusicTrack = nullptr;
+
+	MIX_DestroyMixer(gMixer);
+	gMixer = nullptr;
+
 	TTF_Quit();
 	SDL_Quit();
+	MIX_Quit();
 }
 
 int main()
@@ -256,6 +297,14 @@ int main()
 							return 2;
 						}
 					}
+				}
+
+				if (MIX_TrackPlaying(gMusicTrack) == false)
+				{
+					SDL_PropertiesID props = SDL_CreateProperties();
+					SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
+					MIX_PlayTrack(gMusicTrack, props);
+					SDL_DestroyProperties(props);
 				}
 
 				SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, 0xFF);

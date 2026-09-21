@@ -43,6 +43,7 @@ class LTexture
 
 bool init();
 bool loadMedia();
+bool loadText();
 bool loadAudio();
 void close();
 
@@ -199,16 +200,19 @@ bool loadMedia()
 	{
 		return false;
 	}
-	else
-	{
-		SDL_Color textColor{ 0xFF, 0xFF, 0xFF, 0xFF };
-		if (gTextTexture.loadFromRenderedText(textToDisplay, textColor) == false)
-		{
-			return false;
-		}
-	}
 
 	if (gPngTexture.loadFromFile("art.png") == false)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool loadText()
+{
+	SDL_Color textColor{ 0xFF, 0xFF, 0xFF, 0xFF };
+	if (gTextTexture.loadFromRenderedText(textToDisplay, textColor) == false)
 	{
 		return false;
 	}
@@ -267,7 +271,7 @@ void close()
 
 int main()
 {
-	if (!init() || !loadMedia() || !loadAudio())
+	if (!init() || !loadMedia() || !loadText() || !loadAudio())
 	{
 		return 1;
 	}
@@ -292,9 +296,9 @@ int main()
 				{
 					textToDisplay = manager.getNextDialogue();
 
-					if (loadMedia() == false)
+					if (!loadText())
 					{
-						return 2;
+						return 1;
 					}
 				}
 			}

@@ -1,5 +1,6 @@
 #include "gameManager.h"
 #include <string>
+#include <iostream>
 #include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
@@ -7,6 +8,7 @@
 
 constexpr int screenWidth{ 602 };
 constexpr int screenHeight{ 968 };
+constexpr int screenFPS{ 5 };
 
 class LTexture
 {
@@ -57,6 +59,9 @@ MIX_Mixer* gMixer{ nullptr };
 MIX_Track* gMusicTrack{ nullptr };
 
 std::string textToDisplay{ "PRESS ANY KEY TO START" };
+
+float timer{ 255 };
+int frameCounter{ 0 };
 
 LTexture::LTexture():
 	mTexture{ nullptr },
@@ -222,7 +227,7 @@ bool loadText()
 
 bool loadAudio()
 {
-	if (MIX_Audio* musicAudio = MIX_LoadAudio(gMixer, "theme.mp3", false); musicAudio == nullptr)
+	if (MIX_Audio* musicAudio = MIX_LoadAudio(gMixer, "title.mp3", false); musicAudio == nullptr)
 	{
 		return false;
 	}
@@ -282,10 +287,14 @@ int main()
 		SDL_Event e;
 		SDL_zero(e);
 
+		constexpr Uint64 nsPerFrame = 1000000000 / screenFPS;
+
 		gameManager manager;
 
 		while (quit == false)
 		{
+			Uint64 frameStart = SDL_GetTicksNS();
+
 			while (SDL_PollEvent(&e) == true)
 			{
 				if (e.type == SDL_EVENT_QUIT)
@@ -317,7 +326,23 @@ int main()
 			gPngTexture.render(0.f, 0.f);
 			gTextTexture.render(20.f, 800.f);
 
+			if (timer >= 0)
+			{
+				SDL_SetRenderDrawBlendMode(gRenderer, SDL_BLENDMODE_BLEND);
+				SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, timer);
+				SDL_RenderFillRect(gRenderer, nullptr);
+				timer -= 5;
+			}
+
 			SDL_RenderPresent(gRenderer);
+
+			Uint64 frameTime = SDL_GetTicksNS() - frameStart;
+			if (frameTime < nsPerFrame)
+			{
+				SDL_DelayNS(nsPerFrame - frameTime);
+			}
+			frameCounter++;
+			std::cout << frameCounter << " frame" << std::endl;
 		}
 	}
 

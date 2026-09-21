@@ -6,6 +6,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 
 inline constexpr int screenWidth{ 602 };
+
 extern SDL_Renderer* gRenderer;
 extern TTF_Font* gFont;
 
@@ -29,7 +30,7 @@ class LTexture
 		int getHeight();
 		bool isLoaded();
 
-		//remove default class functions
+		// remove default class functions
 		LTexture(const LTexture&) = delete;
 		LTexture& operator=(const LTexture&) = delete;
 		LTexture(LTexture&&) = delete;

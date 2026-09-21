@@ -11,6 +11,8 @@ class gameManager
 		std::string getNextDialogue();
 		std::string currentDialogue;
 
+		// need to remove default class functions
+
 	private:
 		std::array<std::string, 6> dialogueList;
 		int dialogueIndex;

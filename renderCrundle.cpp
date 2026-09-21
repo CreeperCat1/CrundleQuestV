@@ -7,7 +7,7 @@
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3_mixer/SDL_mixer.h>
 
-//constexpr int screenWidth{ 602 }; defined in LTexture.h
+// constexpr int screenWidth{ 602 }; defined in LTexture.h
 constexpr int screenHeight{ 968 };
 constexpr int screenFPS{ 5 };
 

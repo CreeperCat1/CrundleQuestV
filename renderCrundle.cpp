@@ -329,7 +329,7 @@ int main()
 			if (timer >= 0)
 			{
 				SDL_SetRenderDrawBlendMode(gRenderer, SDL_BLENDMODE_BLEND);
-				SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, timer);
+				SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, static_cast<Uint8>(timer));
 				SDL_RenderFillRect(gRenderer, nullptr);
 				timer -= 5;
 			}

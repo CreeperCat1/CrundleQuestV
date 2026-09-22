@@ -18,6 +18,15 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Scripts\gameManager.cpp" />
+    <ClCompile Include="Scripts\LTexture.cpp" />
+    <ClCompile Include="Scripts\renderCrundle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Scripts\gameManager.h" />
+    <ClInclude Include="Scripts\LTexture.h" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -125,15 +134,6 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
   </ItemDefinitionGroup>
-  <ItemGroup>
-    <ClCompile Include="gameManager.cpp" />
-    <ClCompile Include="LTexture.cpp" />
-    <ClCompile Include="renderCrundle.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="gameManager.h" />
-    <ClInclude Include="LTexture.h" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

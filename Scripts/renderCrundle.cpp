@@ -61,13 +61,13 @@ bool init()
 
 bool loadMedia()
 {
-	std::string fontPath{ "terminal.ttf" };
+	std::string fontPath{ "Assets/terminal.ttf" };
 	if (gFont = TTF_OpenFont(fontPath.c_str(), 15); gFont == nullptr)
 	{
 		return false;
 	}
 
-	if (!gPngTexture.loadFromFile("art.png"))
+	if (!gPngTexture.loadFromFile("Assets/art.png"))
 	{
 		return false;
 	}
@@ -88,7 +88,7 @@ bool loadText()
 
 bool loadAudio()
 {
-	if (MIX_Audio* musicAudio = MIX_LoadAudio(gMixer, "title.mp3", false); musicAudio == nullptr)
+	if (MIX_Audio* musicAudio = MIX_LoadAudio(gMixer, "Assets/title.mp3", false); musicAudio == nullptr)
 	{
 		return false;
 	}

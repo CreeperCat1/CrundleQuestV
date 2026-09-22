@@ -15,21 +15,21 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="renderCrundle.cpp">
+    <ClCompile Include="Scripts\gameManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="gameManager.cpp">
+    <ClCompile Include="Scripts\LTexture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="LTexture.cpp">
+    <ClCompile Include="Scripts\renderCrundle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="gameManager.h">
+    <ClInclude Include="Scripts\gameManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="LTexture.h">
+    <ClInclude Include="Scripts\LTexture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

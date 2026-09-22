@@ -1,0 +1,4 @@
+CreeperCat1 - CMake Build Commands For Future Reference
+
+cmake -S . -B test -DCMAKE_TOOLCHAIN_FILE="C:\Programming Packages\CPP\vcpkg\scripts\buildsystems\vcpkg.cmake"
+cmake --build test --config Release

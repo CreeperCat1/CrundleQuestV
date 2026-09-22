@@ -2,9 +2,11 @@
 #define LTexture_H
 
 #include <string>
+#include <SDL3/SDL.h>
 #include <SDL3_image/SDL_image.h>
 #include <SDL3_ttf/SDL_ttf.h>
 
+// constexpr int screenWidth{ 602 }; - defined globally
 inline constexpr int screenWidth{ 602 };
 
 extern SDL_Renderer* gRenderer;

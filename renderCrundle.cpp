@@ -3,11 +3,11 @@
 #include <string>
 #include <iostream>
 #include <SDL3/SDL.h>
-#include <SDL3_image/SDL_image.h>
+// #include <SDL3_image/SDL_image.h> - excluded (not explicity called here)
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3_mixer/SDL_mixer.h>
 
-// constexpr int screenWidth{ 602 }; defined in LTexture.h
+// constexpr int screenWidth{ 602 }; - defined in LTexture.h
 constexpr int screenHeight{ 968 };
 constexpr int screenFPS{ 5 };
 
@@ -33,24 +33,19 @@ int frameCounter{ 0 };
 
 bool init()
 {
-	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) == false)
+	if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
 	{
 		return false;
 	}
 	else
 	{
-		if (SDL_CreateWindowAndRenderer("Crundal Quest 5: The Crystals of Gingledoof", screenWidth, screenHeight, 0, &gWindow, &gRenderer) == false)
+		if (!SDL_CreateWindowAndRenderer("CRUNDLE QUEST V - THE CRYSTALS OF GINGLEDOOF", screenWidth, screenHeight, 0, &gWindow, &gRenderer))
 		{
 			return false;
 		}
 		else
 		{
-			if (TTF_Init() == false)
-			{
-				return false;
-			}
-
-			if (MIX_Init() == false)
+			if (!TTF_Init() || !MIX_Init())
 			{
 				return false;
 			}
@@ -75,7 +70,7 @@ bool loadMedia()
 		return false;
 	}
 
-	if (gPngTexture.loadFromFile("art.png") == false)
+	if (!gPngTexture.loadFromFile("art.png"))
 	{
 		return false;
 	}
@@ -86,7 +81,7 @@ bool loadMedia()
 bool loadText()
 {
 	SDL_Color textColor{ 0xFF, 0xFF, 0xFF, 0xFF };
-	if (gTextTexture.loadFromRenderedText(textToDisplay, textColor) == false)
+	if (!gTextTexture.loadFromRenderedText(textToDisplay, textColor))
 	{
 		return false;
 	}
@@ -160,11 +155,11 @@ int main()
 
 		gameManager manager;
 
-		while (quit == false)
+		while (!quit)
 		{
 			Uint64 frameStart = SDL_GetTicksNS();
 
-			while (SDL_PollEvent(&e) == true)
+			while (SDL_PollEvent(&e))
 			{
 				if (e.type == SDL_EVENT_QUIT)
 				{
@@ -181,7 +176,7 @@ int main()
 				}
 			}
 
-			if (MIX_TrackPlaying(gMusicTrack) == false)
+			if (!MIX_TrackPlaying(gMusicTrack))
 			{
 				SDL_PropertiesID props = SDL_CreateProperties();
 				SDL_SetNumberProperty(props, MIX_PROP_PLAY_LOOPS_NUMBER, -1);

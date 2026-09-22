@@ -28,9 +28,6 @@ MIX_Track* gMusicTrack{ nullptr };
 
 std::string textToDisplay{ "PRESS ANY KEY TO START" };
 
-float timer{ 255 };
-int frameCounter{ 0 };
-
 bool init()
 {
 	if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO))
@@ -152,6 +149,8 @@ int main()
 		SDL_zero(e);
 
 		constexpr Uint64 nsPerFrame = 1000000000 / screenFPS;
+		Uint8 timer{ 255 };
+		int frameCounter{ 0 };
 
 		gameManager manager;
 
@@ -190,10 +189,10 @@ int main()
 			gPngTexture.render(0.f, 0.f);
 			gTextTexture.render(20.f, 800.f);
 
-			if (timer >= 0)
+			if (timer > 0)
 			{
 				SDL_SetRenderDrawBlendMode(gRenderer, SDL_BLENDMODE_BLEND);
-				SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, static_cast<Uint8>(timer));
+				SDL_SetRenderDrawColor(gRenderer, 0x00, 0x00, 0x00, timer);
 				SDL_RenderFillRect(gRenderer, nullptr);
 				timer -= 5;
 			}

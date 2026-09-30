@@ -2,7 +2,7 @@
 #define gameManager_H
 
 #include <string>
-#include <array>
+#include <vector>
 
 class gameManager
 {
@@ -11,7 +11,6 @@ class gameManager
 		~gameManager() = default;
 
 		std::string getNextDialogue();
-		std::string currentDialogue;
 
 		// remove default class functions
 		gameManager(const gameManager&) = delete;
@@ -20,8 +19,9 @@ class gameManager
 		gameManager& operator=(gameManager&&) = delete;
 
 	private:
-		std::array<std::string, 6> dialogueList;
+		const std::vector<std::string> dialogueList;
 		int dialogueIndex;
+		std::string currentDialogue;
 };
 
 #endif

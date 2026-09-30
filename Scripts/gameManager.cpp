@@ -1,5 +1,4 @@
 #include "gameManager.h"
-#include <iostream>
 #include <string>
 
 gameManager::gameManager():
@@ -24,12 +23,7 @@ std::string gameManager::getNextDialogue()
 		dialogueIndex++;
 		return currentDialogue;
 	}
-	else
-	{
-		currentDialogue = "THE END";
-		std::cout << "end";
-		return currentDialogue;
-	}
+	return "THE END";
 }
 // story is enter mountain cabin and get spell which summons sword
 // then get crystals of gringiff which empowers the sword

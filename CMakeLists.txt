@@ -10,7 +10,7 @@ find_package(SDL3_image CONFIG REQUIRED)
 find_package(SDL3_ttf CONFIG REQUIRED)
 find_package(SDL3_mixer CONFIG REQUIRED)
 
-add_executable(CrundleQuestV
+add_executable(CrundleQuestV WIN32
 	Scripts/renderCrundle.cpp
 	Scripts/LTexture.cpp
 	Scripts/gameManager.cpp

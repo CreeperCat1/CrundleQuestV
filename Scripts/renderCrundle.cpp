@@ -1,8 +1,8 @@
 #include "LTexture.h"
 #include "gameManager.h"
 #include <string>
-#include <iostream>
 #include <SDL3/SDL.h>
+#include <SDL3/SDL_main.h>
 // #include <SDL3_image/SDL_image.h> - excluded (not explicity called here)
 #include <SDL3_ttf/SDL_ttf.h>
 #include <SDL3_mixer/SDL_mixer.h>
@@ -135,7 +135,7 @@ void close()
 	MIX_Quit();
 }
 
-int main()
+int main(int argc, char* argv[])
 {
 	if (!init() || !loadMedia() || !loadText() || !loadAudio())
 	{
@@ -205,7 +205,6 @@ int main()
 				SDL_DelayNS(nsPerFrame - frameTime);
 			}
 			frameCounter++;
-			std::cout << frameCounter << " frame" << std::endl;
 		}
 	}
 
